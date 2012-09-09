@@ -5,7 +5,7 @@ class AuthorizationsController < ApplicationController
 		if authorization
 		  render :status => :ok, :json => authorization
 	  else
-	    render :status => 404, :json => { :error => 'Authorization not found' }
+	    render :status => :ok, :json => { :error => 'Authorization not found' }
     end
 	end
 	
@@ -29,12 +29,12 @@ class AuthorizationsController < ApplicationController
     
     begin
       authorization.save!
-      success = true
     rescue Exception => e
       logger.error "Error saving Authorization: #{e.class}:#{e.message}. BACKTRACE: #{e.backtrace}"
-      success = false
     end
     
-    render :status => :ok, :json => { :success => success }
+    respond_to do |format|
+      format.html
+    end
 	end
 end
